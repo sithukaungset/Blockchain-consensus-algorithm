@@ -10,34 +10,36 @@ import (
 	"sync"
 )
 
-//本地消息池（模拟持久化层），只有确认提交成功后才会存入此池
+//The local message pool (simulation the persistance layer)
+//will only be  stored in this pool after the successful submission
+// is confirmed
 var localMessagePool = []Message{}
 
 type node struct {
-	//节点ID
+	//Node ID
 	nodeID string
-	//节点监听地址
+	//Node listening address
 	addr string
-	//RSA私钥
+	//RSA private key
 	rsaPrivKey []byte
-	//RSA公钥
+	//RSA public key
 	rsaPubKey []byte
 }
 
 type pbft struct {
-	//节点信息
+	//Node information
 	node node
-	//每笔请求自增序号
+	//Self-incrementing sequence number for each request
 	sequenceID int
-	//锁
+	//Lock
 	lock sync.Mutex
-	//临时消息池，消息摘要对应消息本体
+	//Temporary message pool, message digest corresponds to message body
 	messagePool map[string]Request
-	//存放收到的prepare数量(至少需要收到并确认2f个)，根据摘要来对应
+	//Store the number of prepares received (at least 2f need to be received and confirmed), corresponding to the summary.
 	prePareConfirmCount map[string]map[string]bool
-	//存放收到的commit数量（至少需要收到并确认2f+1个），根据摘要来对应
+	//Store the number of received commits (at least 2f + 1 need to be received and confirmed), corresponding to the summary.
 	commitConfirmCount map[string]map[string]bool
-	//该笔消息是否已进行Commit广播
+	//Whether the message has been commit broadcast
 	isCommitBordcast map[string]bool
 	//该笔消息是否已对客户端进行Reply
 	isReply map[string]bool
