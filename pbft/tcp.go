@@ -7,7 +7,7 @@ import (
 	"net"
 )
 
-//客户端使用的tcp监听
+//TCP listening used by the client
 func clientTcpListen() {
 	listen, err := net.Listen("tcp", clientAddr)
 	if err != nil {
@@ -29,7 +29,7 @@ func clientTcpListen() {
 
 }
 
-//节点使用的tcp监听
+//TCP listener used by the node
 func (p *pbft) tcpListen() {
 	listen, err := net.Listen("tcp", p.node.addr)
 	if err != nil {
