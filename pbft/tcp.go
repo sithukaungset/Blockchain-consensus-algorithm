@@ -52,7 +52,7 @@ func (p *pbft) tcpListen() {
 
 }
 
-//使用tcp发送消息
+//send message using TCP
 func tcpDial(context []byte, addr string) {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {

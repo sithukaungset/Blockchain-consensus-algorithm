@@ -17,7 +17,7 @@ import (
 //If the directory Keys does not exist in the current directory, create a directory and generate rsa public and private keys for each node.
 func genRsaKeys() {
 	if !isExist("./Keys") {
-		fmt.Println("检测到还未生成公私钥目录，正在生成公私钥 ...")
+		fmt.Println("It is detected that the public and private key directories have not been generated, and the public and private keys are being generated...")
 		err := os.Mkdir("Keys", 0644)
 		if err != nil {
 			log.Panic()
@@ -46,13 +46,13 @@ func genRsaKeys() {
 			defer file2.Close()
 			file2.Write(pub)
 		}
-		fmt.Println("已为节点们生成RSA公私钥")
+		fmt.Println("RSA public and private keys have been generated for nodes.")
 	}
 }
 
-//生成rsa公私钥
+//Generate RSA public and private keys
 func getKeyPair() (prvkey, pubkey []byte) {
-	// 生成私钥文件
+	// Generate private key file
 	privateKey, err := rsa.GenerateKey(rand.Reader, 1024)
 	if err != nil {
 		panic(err)
@@ -76,7 +76,7 @@ func getKeyPair() (prvkey, pubkey []byte) {
 	return
 }
 
-//判断文件或文件夹是否存在
+// Check if a file or folder exists
 func isExist(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil {
@@ -92,7 +92,7 @@ func isExist(path string) bool {
 	return true
 }
 
-//数字签名
+//digital signature
 func (p *pbft) RsaSignWithSha256(data []byte, keyBytes []byte) []byte {
 	h := sha256.New()
 	h.Write(data)
@@ -116,7 +116,7 @@ func (p *pbft) RsaSignWithSha256(data []byte, keyBytes []byte) []byte {
 	return signature
 }
 
-//签名验证
+//Signature verification
 func (p *pbft) RsaVerySignWithSha256(data, signData, keyBytes []byte) bool {
 	block, _ := pem.Decode(keyBytes)
 	if block == nil {
