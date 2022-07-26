@@ -14,7 +14,7 @@ import (
 	"strconv"
 )
 
-//如果当前目录下不存在目录Keys，则创建目录，并为各个节点生成rsa公私钥
+//If the directory Keys does not exist in the current directory, create a directory and generate rsa public and private keys for each node.
 func genRsaKeys() {
 	if !isExist("./Keys") {
 		fmt.Println("检测到还未生成公私钥目录，正在生成公私钥 ...")
