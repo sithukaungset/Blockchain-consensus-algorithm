@@ -62,7 +62,7 @@ const (
 	cCommit     command = "commit"
 )
 
-//默认前十二位为命令名称
+//The default first twelve digits are the command number
 func jointMessage(cmd command, content []byte) []byte {
 	b := make([]byte, prefixCMDLength)
 	for i, v := range []byte(cmd) {
@@ -73,7 +73,7 @@ func jointMessage(cmd command, content []byte) []byte {
 	return joint
 }
 
-//默认前十二位为命令名称
+//The default first twelve digits are the command number
 func splitMessage(message []byte) (cmd string, content []byte) {
 	cmdBytes := message[:prefixCMDLength]
 	newCMDBytes := make([]byte, 0)
@@ -87,13 +87,13 @@ func splitMessage(message []byte) (cmd string, content []byte) {
 	return
 }
 
-//对消息详情进行摘要
+//The default first twelve digits are the command number
 func getDigest(request Request) string {
 	b, err := json.Marshal(request)
 	if err != nil {
 		log.Panic(err)
 	}
 	hash := sha256.Sum256(b)
-	//进行十六进制字符串编码
+	//Encode the hexadecimal string
 	return hex.EncodeToString(hash[:])
 }

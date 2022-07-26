@@ -13,15 +13,15 @@ import (
 )
 
 func clientSendMessageAndListen() {
-
+	// turn on the local monitoring of the client
 	go clientTcpListen()
-	fmt.Printf("客户端开启监听，地址：%s\n", clientAddr)
+	fmt.Printf("The client starts listening, the address：%s\n", clientAddr)
 
 	fmt.Println(" ---------------------------------------------------------------------------------")
-	fmt.Println("|  已进入PBFT测试Demo客户端，请启动全部节点后再发送消息！ :)  |")
+	fmt.Println("|  You have entered the PBFT test Demo client, please start all nodes before sending a message！ :)  |")
 	fmt.Println(" ---------------------------------------------------------------------------------")
-	fmt.Println("请在下方输入要存入节点的信息：")
-
+	fmt.Println("Please enter the information to be stored in the node below：")
+	// First get user input via command line
 	stdReader := bufio.NewReader(os.Stdin)
 	for {
 		data, err := stdReader.ReadString('\n')
@@ -33,7 +33,7 @@ func clientSendMessageAndListen() {
 		r.Timestamp = time.Now().UnixNano()
 		r.ClientAddr = clientAddr
 		r.Message.ID = getRandom()
-		//消息内容就是用户的输入
+		// The message content is the user's input
 		r.Message.Content = strings.TrimSpace(data)
 		br, err := json.Marshal(r)
 		if err != nil {
@@ -41,11 +41,12 @@ func clientSendMessageAndListen() {
 		}
 		fmt.Println(string(br))
 		content := jointMessage(cRequest, br)
-
+		// The default N0 is the master node, and the request information is directly sent to N0.
 		tcpDial(content, nodeTable["N0"])
 	}
 }
 
+// Return a ten-digit random number as msgid
 func getRandom() int {
 	x := big.NewInt(10000000000)
 	for {
